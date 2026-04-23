@@ -1,0 +1,426 @@
+Traceback (most recent call last):
+  File "/home/vaibhav-tya6i/Documents/Zipzy/backend/main.py", line 1, in <module>
+    from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+ModuleNotFoundError: No module named 'fastapi'
+/home/vaibhav-tya6i/Documents/Zipzy/backend/main.py:130: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+INFO:     Started server process [59625]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:5000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:47496 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:47504 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:47514 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:47528 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:47538 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:47540 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:47544 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+Connected to Binance WebSocket: wss://stream.binance.com:9443/ws/solusdt@ticker/bnbusdt@ticker/btcusdt@ticker/ethusdt@ticker
+INFO:     127.0.0.1:59348 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     127.0.0.1:59350 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:59364 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:59348 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59372 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59348 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59372 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59348 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59372 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59348 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59348 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59374 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:59382 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:60278 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:60292 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:60294 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:60290 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60290 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60298 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60290 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60298 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60290 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60310 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:47998 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:48006 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48006 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48010 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:38712 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:38724 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38732 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38724 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38724 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42374 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48276 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52956 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52968 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52956 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52956 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38784 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38794 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:38802 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:38784 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38784 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38784 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38784 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:43076 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:43080 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+Binance WS Error: 
+INFO:     127.0.0.1:38784 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+Connected to Binance WebSocket: wss://stream.binance.com:9443/ws/solusdt@ticker/bnbusdt@ticker/btcusdt@ticker/ethusdt@ticker
+INFO:     127.0.0.1:38784 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     127.0.0.1:45954 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45970 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:49480 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:49498 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:49494 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55604 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:55616 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:49494 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55590 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49494 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     127.0.0.1:49494 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50186 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:50184 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49494 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33502 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:37242 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48950 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47710 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:57330 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:57352 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:57340 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57354 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57340 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57340 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57354 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57340 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57358 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:59350 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:59370 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:59358 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59378 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59358 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59358 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59378 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59358 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59384 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:36768 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:36782 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:36798 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36798 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36804 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:36816 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:41202 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41216 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41202 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41202 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41230 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:60134 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60146 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60146 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:57300 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:57312 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:57308 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57308 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57318 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57308 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57318 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57308 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57330 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:57346 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:54034 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54034 - "GET /api/historical/BTCUSDT?interval=1m&limit=60 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38358 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38358 - "GET /api/historical/BTCUSDT?interval=1d&limit=365 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56412 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56412 - "GET /api/historical/BTCUSDT?interval=1m&limit=60 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42948 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42948 - "GET /api/historical/BTCUSDT?interval=1d&limit=365 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46562 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46562 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44150 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44150 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44150 - "GET /api/historical/BTCUSDT?interval=1d&limit=365 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60034 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60034 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60034 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60034 - "GET /api/historical/BTCUSDT?interval=1m&limit=60 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60034 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60034 - "GET /api/historical/BTCUSDT?interval=1d&limit=365 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59428 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35644 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35648 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51068 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:51074 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:51078 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:51080 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:51094 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51094 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51110 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51110 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51120 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:51122 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:57452 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57466 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57466 - "GET /api/historical/BTCUSDT?interval=1h&limit=168 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37090 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37090 - "GET /api/historical/BTCUSDT?interval=4h&limit=180 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37098 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37098 - "GET /api/historical/BTCUSDT?interval=1w&limit=1000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56390 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56390 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56390 - "GET /api/historical/BTCUSDT?interval=1m&limit=60 HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     127.0.0.1:57922 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:57932 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33732 - "GET /api/search?q=fu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43492 - "GET /api/search?q=fun HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43496 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:43492 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43492 - "GET /api/historical/FUNUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43512 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43512 - "GET /api/historical/FUNUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44042 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:43512 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53226 - "GET /api/search?q=he HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     127.0.0.1:53238 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:53248 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:53262 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:36252 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:36260 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56200 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33600 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:37384 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46356 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34592 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59090 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34290 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46218 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33818 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60802 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     127.0.0.1:60816 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:60832 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:60838 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:60844 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:60802 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60818 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60860 - "GET /api/historical/BTCUSDT?interval=1d&limit=365 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60818 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     127.0.0.1:49302 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:49318 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:49324 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:53414 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:51090 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:39272 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39286 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:51530 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:51544 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:51556 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:51558 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:52132 - "HEAD /api/market-data HTTP/1.1" 405 Method Not Allowed
+INFO:     127.0.0.1:52146 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57404 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:57426 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:57434 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:57448 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:57410 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57456 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57458 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57410 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57468 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57410 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57458 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57410 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57410 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57484 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:57498 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:57410 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57508 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:57516 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:48452 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:48456 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:48464 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48464 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48472 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:48474 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:51116 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:51136 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:51126 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51142 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51126 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51126 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51142 - "GET /api/historical/BTCUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51126 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51154 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:51164 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:42758 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42768 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:42784 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42784 - "GET /api/market-data HTTP/1.1" 200 OK

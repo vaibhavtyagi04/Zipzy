@@ -1,0 +1,97 @@
+/* index.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Outfit:wght@400;600;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Zip3 Production Luxe - Dark Navy Theme */
+  --bg: #0f172a; /* Dark Navy */
+  --surface: #1e293b; /* Slate Card */
+  --text-primary: #e2e8f0; /* Soft Silver */
+  --text-secondary: #94a3b8; /* Muted Slate */
+  --accent: #E9B3A2; /* Dusty Rose (Accent preserved) */
+  --border: rgba(255, 255, 255, 0.08);
+  --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.dark {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --accent: #E9B3A2;
+  --border: rgba(255, 255, 255, 0.08);
+  --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+@layer base {
+  body {
+    @apply transition-colors duration-700;
+    background-color: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Outfit', 'Inter', sans-serif;
+  }
+}
+
+/* Luxury UI Utilities */
+.bg-theme { background-color: var(--bg); }
+.text-theme { color: var(--text-primary); }
+.text-muted { color: var(--text-secondary); }
+.bg-surface { background-color: var(--surface); }
+.border-theme { border-color: var(--border); }
+
+/* Anti-Gravity Card Utility */
+.luxe-card {
+  @apply rounded-[32px] transition-all duration-500 backdrop-blur-md border;
+  background-color: var(--surface);
+  border-color: var(--border);
+  box-shadow: var(--card-shadow);
+}
+
+.luxe-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* Sidebar Glassmorphism */
+.sidebar-glass {
+  @apply backdrop-blur-2xl border-r;
+  background-color: rgba(15, 23, 42, 0.8);
+  border-color: var(--border);
+}
+
+.dark .sidebar-glass {
+  background-color: rgba(15, 23, 42, 0.9);
+}
+
+/* Premium Button Utility */
+.btn-luxe {
+  @apply px-8 py-4 rounded-2xl font-black transition-all active:scale-95;
+  background-color: var(--text-primary);
+  color: var(--bg);
+}
+
+.btn-luxe:hover {
+  @apply shadow-xl opacity-90;
+  transform: translateY(-2px);
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply rounded-full;
+  background: var(--border);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}

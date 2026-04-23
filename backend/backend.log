@@ -1,0 +1,188 @@
+/home/vaibhav-tya6i/Documents/Zipzy/backend/main.py:130: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+INFO:     Started server process [64855]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:5000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:44074 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:44084 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:44090 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:44102 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:44108 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:44124 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:35976 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:35978 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     connection closed
+Connected to Binance WebSocket: wss://stream.binance.com:9443/ws/bnbusdt@ticker/solusdt@ticker/btcusdt@ticker/ethusdt@ticker
+INFO:     127.0.0.1:35992 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35992 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35992 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35996 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36006 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:36008 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:51122 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:36150 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:36164 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:54008 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54008 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54024 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     127.0.0.1:35120 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:35124 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:57262 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:40516 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:40530 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:58916 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:49090 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49090 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49092 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49098 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:59618 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59618 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59620 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     127.0.0.1:55750 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:39126 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39126 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39130 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33968 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33976 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:39414 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:48046 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:48052 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:60506 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60510 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     127.0.0.1:59460 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59464 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:59478 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:59492 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:60180 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60194 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     127.0.0.1:49650 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:49656 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38614 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:59974 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:48440 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:48442 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48456 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51112 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57818 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57824 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     127.0.0.1:44444 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:44456 - "WebSocket /ws/market" [accepted]
+INFO:     connection closed
+INFO:     127.0.0.1:47670 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:47654 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     127.0.0.1:36544 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:37528 - "GET /api/search?q=ho HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37538 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:37528 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37546 - "GET /api/historical/MORPHOUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37528 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37528 - "GET /api/historical/MORPHOUSDT?interval=15m&limit=96 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37558 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:58180 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58180 - "GET /api/historical/MORPHOUSDT?interval=1m&limit=60 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58180 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58194 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58180 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58180 - "GET /api/historical/MORPHOUSDT?interval=1d&limit=365 HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     127.0.0.1:51682 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:51688 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:51696 - "WebSocket /ws/market" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:58802 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48818 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48820 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36940 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51544 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51560 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40992 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:49160 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60652 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     127.0.0.1:48084 - "GET /api/market-data HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     connection closed
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [64855]

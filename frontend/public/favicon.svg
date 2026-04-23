@@ -1,0 +1,20 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Rounded Background -->
+  <rect width="64" height="64" rx="16" fill="#FFF7F1"/>
+  
+  <!-- "Z" Body -->
+  <path d="M18 18H46L18 46H46" stroke="#1A1A1A" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Metallic Shadow Detail on Z -->
+  <path d="M28 46H46L38 38" fill="url(#metallic_grad)" />
+  
+  <!-- Soft Peach Star -->
+  <path d="M48 24C48 24 50 28 52 28C54 28 56 24 56 24C56 24 54 20 52 20C50 20 48 24 48 24Z" fill="#FFB8A5"/>
+  
+  <defs>
+    <linearGradient id="metallic_grad" x1="28" y1="46" x2="46" y2="38" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#9CA3AF"/>
+      <stop offset="1" stop-color="#E5E7EB"/>
+    </linearGradient>
+  </defs>
+</svg>
