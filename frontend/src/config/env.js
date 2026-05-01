@@ -19,6 +19,9 @@ export const NETWORKS = {
   SEPOLIA: 11155111,
 };
 
+// API Domain
+export const API_BASE = import.meta.env.VITE_API_BASE || "";
+
 // API Endpoints
 export const ENDPOINTS = {
   ALCHEMY_BASE: (key) => `https://eth-mainnet.g.alchemy.com/v2/${key}`,

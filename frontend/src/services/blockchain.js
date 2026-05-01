@@ -4,16 +4,35 @@ import axios from 'axios';
 import { parseEther, formatEther } from 'viem';
 import { API_KEYS, ENDPOINTS } from '../config/env';
 
-// Public RPC for read-only operations (market data, balance checks)
-const RPC_URL = "https://cloudflare-eth.com";
-
-export const getProvider = () => {
-  return new ethers.JsonRpcProvider(RPC_URL);
+export const CHAIN_LABELS = {
+  1: "Ethereum Mainnet",
+  11155111: "Sepolia Testnet",
+  137: "Polygon",
 };
 
-export const getWalletBalance = async (address) => {
+const RPC_URLS = {
+  1: import.meta.env.VITE_ETHEREUM_RPC_URL || "https://cloudflare-eth.com",
+  11155111: import.meta.env.VITE_SEPOLIA_RPC_URL || "https://ethereum-sepolia-rpc.publicnode.com",
+  137: import.meta.env.VITE_POLYGON_RPC_URL || "https://polygon-rpc.com",
+};
+
+export const getChainName = (chainId) => {
+  if (!chainId) return "Ethereum Mainnet";
+  return CHAIN_LABELS[Number(chainId)] || `Chain ${chainId}`;
+};
+
+export const getProvider = () => {
+  return new ethers.JsonRpcProvider(RPC_URLS[1]);
+};
+
+export const getProviderForChain = (chainId = 1) => {
+  const id = Number(chainId || 1);
+  return new ethers.JsonRpcProvider(RPC_URLS[id] || RPC_URLS[1]);
+};
+
+export const getWalletBalance = async (address, chainId = 1) => {
   try {
-    const provider = getProvider();
+    const provider = getProviderForChain(chainId);
     const balance = await provider.getBalance(address);
     return ethers.formatEther(balance);
   } catch (error) {

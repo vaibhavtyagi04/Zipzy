@@ -12,6 +12,8 @@ export const useWalletStore = create(
       balance: 0,
       chainId: null,
       isConnected: false,
+      vault: null,
+      isInternalWallet: false,
       // Market & Holdings
       marketData: {},
       historicalData: {},
@@ -44,7 +46,23 @@ export const useWalletStore = create(
       setBalance: (balance) => set({ balance }),
       setIsConnected: (isConnected) => set({ isConnected }),
       setChainId: (chainId) => set({ chainId }),
-      setVault: (vault) => set({ vault }),
+      setVault: (vault) => set({
+        vault,
+        isInternalWallet: !!vault,
+        wallet: vault ? { address: vault.address, type: "internal" } : null,
+        address: vault?.address || "",
+        isConnected: !!vault,
+        chainId: vault?.chainId || get().chainId || 1,
+        loading: false,
+      }),
+      clearVault: () => set({
+        vault: null,
+        isInternalWallet: false,
+        wallet: null,
+        address: "",
+        balance: 0,
+        isConnected: false,
+      }),
       setIsInternalWallet: (v) => set({ isInternalWallet: v }),
       setTokens: (tokens) => set({ tokens }),
       

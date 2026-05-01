@@ -1,25 +1,25 @@
 // store/authStore.js
-// Simplified: wallet connection = authentication
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 
-export const useAuthStore = create((set) => ({
-  // With wagmi, isAuthenticated is derived from wallet connection
-  // This store is kept for backward compatibility with Login/Signup pages
-  user: JSON.parse(localStorage.getItem("zipzy_user")) || null,
-  isAuthenticated: true, // Always true — ProtectedRoute now uses wagmi's isConnected
+export const useAuthStore = create(
+  persist(
+    (set) => ({
+      user: null,
+      isAuthenticated: false,
+      isLoading: true,
 
-  login: (userData) => {
-    localStorage.setItem("zipzy_user", JSON.stringify(userData));
-    set({ user: userData, isAuthenticated: true });
-  },
-
-  signup: (userData) => {
-    localStorage.setItem("zipzy_user", JSON.stringify(userData));
-    set({ user: userData, isAuthenticated: true });
-  },
-
-  logout: () => {
-    localStorage.removeItem("zipzy_user");
-    set({ user: null, isAuthenticated: false });
-  },
-}));
+      setSession: (user) => set({ user, isAuthenticated: !!user, isLoading: false }),
+      clearSession: () => set({ user: null, isAuthenticated: false, isLoading: false }),
+      setLoading: (isLoading) => set({ isLoading }),
+    }),
+    {
+      name: "zipzy-auth-storage",
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({
+        user: state.user,
+        isAuthenticated: state.isAuthenticated,
+      }),
+    }
+  )
+);

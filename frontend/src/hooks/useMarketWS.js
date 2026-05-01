@@ -8,6 +8,7 @@ export const useMarketWS = () => {
   const ws = useRef(null);
   const reconnectTimeout = useRef(null);
   const isConnecting = useRef(false);
+  const reconnectAttempts = useRef(0);
   const { setMarketData, updateSingleAsset, updateHistoricalData, addWhaleAlert } = useWalletStore();
 
   const throttledUpdate = useCallback(
@@ -25,11 +26,18 @@ export const useMarketWS = () => {
 
     ws.current.onopen = () => {
       isConnecting.current = false;
+      reconnectAttempts.current = 0;
       if (reconnectTimeout.current) clearTimeout(reconnectTimeout.current);
     };
 
     ws.current.onmessage = (event) => {
-      const data = JSON.parse(event.data);
+      let data;
+      try {
+        data = JSON.parse(event.data);
+      } catch (error) {
+        console.warn("Ignoring malformed market websocket message:", error);
+        return;
+      }
       
       if (data.type === 'kline') {
         updateHistoricalData(data.symbol, data.data);
@@ -45,14 +53,17 @@ export const useMarketWS = () => {
     };
 
     ws.current.onclose = () => {
-      console.log('Market WebSocket Disconnected. Reconnecting...');
       isConnecting.current = false;
-      reconnectTimeout.current = setTimeout(connect, 3000); // Reconnect after 3 seconds
+      reconnectAttempts.current += 1;
+
+      if (reconnectAttempts.current <= 5) {
+        reconnectTimeout.current = setTimeout(connect, reconnectAttempts.current * 3000);
+      }
     };
 
     ws.current.onerror = (error) => {
       console.error('Market WebSocket Error:', error);
-      ws.current.close();
+      ws.current?.close();
     };
   }, [throttledUpdate]);
 

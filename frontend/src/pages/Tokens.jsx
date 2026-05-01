@@ -116,15 +116,15 @@ export default function Tokens() {
         
         <div className="flex items-center gap-4 w-full md:w-auto">
           <div className="relative flex-1 md:w-96 group">
-            <Search size={18} className={`absolute left-5 top-1/2 -translate-y-1/2 transition-colors ${isSearching ? "text-[#E9B3A2] animate-pulse" : "text-muted"}`} />
+            <Search size={18} className={`absolute left-5 top-1/2 -translate-y-1/2 transition-colors ${isSearching ? "text-accent animate-pulse" : "text-muted"}`} />
             <input 
               type="text" 
               placeholder="Search any coin (e.g. PEPE, LINK)..." 
-              className="bg-surface border border-theme rounded-[24px] py-4 pl-14 pr-6 outline-none focus:border-[#E9B3A2]/40 transition-all w-full text-sm text-theme shadow-lg group-focus-within:ring-4 ring-[#E9B3A2]/5"
+              className="bg-surface border border-theme rounded-[24px] py-4 pl-14 pr-6 outline-none focus:border-accent/40 transition-all w-full text-sm text-theme shadow-lg group-focus-within:ring-4 ring-accent-light"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-            {isSearching && <Loader2 size={16} className="absolute right-5 top-1/2 -translate-y-1/2 animate-spin text-[#E9B3A2]" />}
+            {isSearching && <Loader2 size={16} className="absolute right-5 top-1/2 -translate-y-1/2 animate-spin text-accent" />}
           </div>
         </div>
       </div>
@@ -133,7 +133,7 @@ export default function Tokens() {
         {tokenList.map((token) => (
           <div 
             key={token.id} 
-            className="luxe-card p-6 flex flex-col group relative overflow-hidden cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 transition-all"
+            className="luxe-card p-6 flex flex-col group relative overflow-hidden cursor-pointer hover:bg-secondary transition-all"
             onClick={() => navigate(`/coin/${token.id}`)}
           >
              <div className="flex justify-between items-start mb-6 relative z-10">
@@ -144,7 +144,7 @@ export default function Tokens() {
                     {Math.abs(token.change).toFixed(2)}%
                   </div>
                 ) : (
-                  <div className="text-[10px] font-black uppercase px-3 py-1 rounded-full bg-white/5 text-muted">New Asset</div>
+                  <div className="text-[10px] font-black uppercase px-3 py-1 rounded-full bg-secondary text-muted">New Asset</div>
                 )}
              </div>
 
@@ -158,12 +158,12 @@ export default function Tokens() {
                       {token.price > 0 ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(token.price) : "---"}
                     </p>
                   </div>
-                  <button className="w-10 h-10 rounded-2xl bg-theme text-bg flex items-center justify-center transition-all hover:scale-110 active:scale-95 shadow-lg">
+                  <button className="w-10 h-10 rounded-2xl bg-theme text-bg-primary flex items-center justify-center transition-all hover:scale-110 active:scale-95 shadow-lg">
                     <ArrowUpRight size={18} strokeWidth={3} />
                   </button>
                 </div>
              </div>
-             <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#E9B3A2]/5 rounded-full blur-2xl group-hover:bg-[#E9B3A2]/10 transition-all" />
+             <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-accent-light rounded-full blur-2xl group-hover:bg-accent/10 transition-all" />
           </div>
         ))}
       </div>
@@ -172,7 +172,7 @@ export default function Tokens() {
         <div className="flex justify-center mt-12">
           <button 
             onClick={() => setLimit(l => l + 12)}
-            className="px-10 py-4 bg-white/5 border border-white/5 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all"
+            className="px-10 py-4 bg-surface border border-theme rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-secondary transition-all"
           >
             Load More Assets
           </button>

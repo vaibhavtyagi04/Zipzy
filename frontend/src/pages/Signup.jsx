@@ -1,92 +1,98 @@
-// pages/Signup.jsx
-import { motion } from "framer-motion";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { User, Mail, Lock, ArrowRight, Zap } from "lucide-react";
-import Button from "../components/ui/Button";
+import { Eye, EyeOff, User, Mail, Lock } from "lucide-react";
+import AuthLayout from "../components/AuthLayout";
 import { useAuthStore } from "../store/authStore";
 import { useWalletStore } from "../store/walletStore";
-import Background from "../components/Background";
+import { AuthService } from "../services/authService";
 
 export default function Signup() {
   const navigate = useNavigate();
-  const signup = useAuthStore(s => s.signup);
-  const addNotification = useWalletStore(s => s.addNotification);
+  const setSession = useAuthStore((state) => state.setSession);
+  const addNotification = useWalletStore((state) => state.addNotification);
 
-  const handleSignup = (e) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSignup = async (e) => {
     e.preventDefault();
-    signup({ name: "Vaibhav", email: "vaibhav@zipzy.eth" });
-    addNotification("Account created! Welcome to the ecosystem.", "success");
-    navigate("/");
+    setIsLoading(true);
+    try {
+      const result = await AuthService.signup(name.trim(), email.trim(), password);
+      setSession(result.user);
+      addNotification("Account created successfully!", "success");
+      navigate("/wallet/setup");
+    } catch (error) {
+      addNotification(error.message || "Signup failed", "error");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-phantom-bg text-white flex items-center justify-center p-6 relative overflow-hidden">
-      <Background />
-      
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.9, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        className="w-full max-w-md relative z-10"
-      >
-        <div className="text-center mb-10">
-          <div className="w-16 h-16 bg-[#D4FF75] rounded-[20px] flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-[#D4FF75]/20">
-            <Zap size={32} className="text-black" />
-          </div>
-          <h1 className="text-4xl font-black tracking-tight mb-2">Join Zipzy ⚡</h1>
-          <p className="text-gray-500 font-bold">The next generation of Web3 portals</p>
+    <AuthLayout illustrationSrc="/auth-illustration.png">
+      <div className="max-w-md w-full mx-auto space-y-10">
+        <div>
+          <h1 className="text-[42px] font-black text-[#111] leading-tight mb-4">Create Account</h1>
+          <p className="text-[#666] text-lg font-medium">Join the Zipzy ecosystem today</p>
         </div>
 
-        <div className="bg-white/5 border border-white/5 rounded-[40px] p-10 backdrop-blur-xl">
-          <form onSubmit={handleSignup} className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Full Name</label>
-              <div className="relative">
-                <User size={18} className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500" />
-                <input 
-                  type="text" 
-                  placeholder="Vaibhav Tya6i" 
-                  className="w-full bg-white/5 border border-white/5 rounded-2xl py-4 pl-14 pr-6 outline-none focus:border-phantom-purple/30 transition-all text-sm"
-                />
-              </div>
+        <form onSubmit={handleSignup} className="space-y-6">
+          <div className="space-y-4">
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Full Name"
+              className="w-full h-16 bg-[#f8f9fa] border border-[#eee] rounded-[20px] px-8 outline-none focus:border-[#9d4edd]/30 transition-all font-medium text-[#111] placeholder:text-[#999]"
+              required
+            />
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              className="w-full h-16 bg-[#f8f9fa] border border-[#eee] rounded-[20px] px-8 outline-none focus:border-[#9d4edd]/30 transition-all font-medium text-[#111] placeholder:text-[#999]"
+              required
+            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                className="w-full h-16 bg-[#f8f9fa] border border-[#eee] rounded-[20px] px-8 outline-none focus:border-[#9d4edd]/30 transition-all font-medium text-[#111] placeholder:text-[#999]"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-6 top-1/2 -translate-y-1/2 text-[#999] hover:text-[#666] transition-colors"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
             </div>
-
-            <div className="space-y-2">
-              <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Email Address</label>
-              <div className="relative">
-                <Mail size={18} className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500" />
-                <input 
-                  type="email" 
-                  placeholder="name@zipzy.eth" 
-                  className="w-full bg-white/5 border border-white/5 rounded-2xl py-4 pl-14 pr-6 outline-none focus:border-phantom-purple/30 transition-all text-sm"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Password</label>
-              <div className="relative">
-                <Lock size={18} className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500" />
-                <input 
-                  type="password" 
-                  placeholder="••••••••" 
-                  className="w-full bg-white/5 border border-white/5 rounded-2xl py-4 pl-14 pr-6 outline-none focus:border-phantom-purple/30 transition-all text-sm"
-                />
-              </div>
-            </div>
-
-            <Button variant="neon" fullWidth icon={ArrowRight} className="py-5">
-              Launch Portal
-            </Button>
-          </form>
-
-          <div className="mt-8 text-center">
-            <p className="text-xs font-bold text-gray-500">
-              Already have a portal?{" "}
-              <Link to="/login" className="text-phantom-purple hover:underline underline-offset-4">Log In</Link>
-            </p>
           </div>
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full h-16 bg-[#111] hover:bg-[#222] text-white rounded-[20px] font-black text-lg transition-all shadow-xl active:scale-[0.98] disabled:opacity-50"
+          >
+            {isLoading ? "Creating account..." : "Sign Up"}
+          </button>
+        </form>
+
+        <div className="pt-6 border-t border-[#eee] text-center">
+          <p className="text-[#666] font-medium">
+            Already have an account?{" "}
+            <Link to="/login" className="text-[#9d4edd] font-black hover:underline">Log In</Link>
+          </p>
         </div>
-      </motion.div>
-    </div>
+      </div>
+    </AuthLayout>
   );
 }

@@ -26,9 +26,12 @@ import AIInsights from "./pages/AIInsights";
 import PortfolioAnalytics from "./pages/PortfolioAnalytics";
 import WalletSetup from "./pages/WalletSetup";
 import CoinDetail from "./pages/CoinDetail";
+import CreateWallet from "./pages/CreateWallet";
+import ImportWallet from "./pages/ImportWallet";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { useWalletStore } from "./store/walletStore";
 import { getMarketPrices } from "./services/marketData";
+import { useAuthSession } from "./hooks/useAuthSession";
 
 const ProtectedRoute = ({ children }) => {
   const { isConnected } = useAccount();
@@ -48,7 +51,7 @@ function AppRoutes() {
 
   useEffect(() => {
     if (!rehydrated) return;
-    document.documentElement.classList.toggle("dark", isDarkMode);
+    document.documentElement.setAttribute("data-theme", isDarkMode ? "dark" : "light");
     
     const fetchMarket = async () => {
       const data = await getMarketPrices();
@@ -56,7 +59,7 @@ function AppRoutes() {
     };
 
     fetchMarket();
-    const interval = setInterval(fetchMarket, 60000);
+    const interval = setInterval(fetchMarket, 10000);
     return () => clearInterval(interval);
   }, [setMarketData, isDarkMode, rehydrated]);
 
@@ -73,6 +76,8 @@ function AppRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/wallet/setup" element={(isConnected || vault) ? <Navigate to="/" /> : <WalletSetup />} />
+      <Route path="/wallet/create" element={<CreateWallet />} />
+      <Route path="/wallet/import" element={<ImportWallet />} />
       <Route path="/" element={<ProtectedRoute><ErrorBoundary><Dashboard /></ErrorBoundary></ProtectedRoute>} />
       <Route path="/wallet" element={<ProtectedRoute><Wallet /></ProtectedRoute>} />
       <Route path="/tokens" element={<ProtectedRoute><ErrorBoundary><Tokens /></ErrorBoundary></ProtectedRoute>} />
@@ -97,6 +102,8 @@ function AppRoutes() {
 }
 
 export default function App() {
+  useAuthSession();
+
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useWalletStore } from "../../store/walletStore";
 import { X, ArrowRight, Send, Loader2, AlertCircle, Fuel, ShieldCheck, Zap, AlertTriangle, ExternalLink } from "lucide-react";
 import Button from "../ui/Button";
@@ -6,8 +6,9 @@ import TokenIcon from "../ui/TokenIcon";
 import { motion, AnimatePresence } from "framer-motion";
 import TransactionGuard from "./TransactionGuard";
 import { useSendTransaction, useWaitForTransactionReceipt, useAccount, useBalance, useEstimateGas } from "wagmi";
-import { parseEther, formatEther } from "viem";
-import { isValidEthereumAddress, validateBalance } from "../../services/blockchain";
+import { parseEther } from "viem";
+import { getChainName, isValidEthereumAddress, validateBalance } from "../../services/blockchain";
+import { WalletService } from "../../services/walletService";
 
 function getExplorerUrl(chainId, hash) {
   if (chainId === 11155111) return `https://sepolia.etherscan.io/tx/${hash}`;
@@ -15,9 +16,12 @@ function getExplorerUrl(chainId, hash) {
 }
 
 export default function SendModal({ isOpen, onClose, token }) {
-  const { addNotification, chainId } = useWalletStore();
+  const { addNotification, chainId, vault, address: storedAddress, balance: storedBalance } = useWalletStore();
   const { isConnected, address: userAddress } = useAccount();
-  const { data: userBalance } = useBalance({ address: userAddress });
+  const activeAddress = userAddress || storedAddress || vault?.address;
+  const activeChainId = chainId || vault?.chainId || 1;
+  const isUsingInternalWallet = !!vault?.encryptedJson && !isConnected;
+  const { data: userBalance } = useBalance({ address: activeAddress });
   const { 
     data: txHash, 
     isPending: isSending, 
@@ -33,6 +37,24 @@ export default function SendModal({ isOpen, onClose, token }) {
   const [error, setError] = useState("");
   const [addressError, setAddressError] = useState("");
   const [amountError, setAmountError] = useState("");
+  const [password, setPassword] = useState("");
+  const [internalTxHash, setInternalTxHash] = useState("");
+
+  const balanceFormatted = userBalance?.formatted || String(storedBalance || 0);
+  const activeTxHash = txHash || internalTxHash;
+
+  useEffect(() => {
+    if (!isOpen) return;
+    setAddress("");
+    setAmount("");
+    setStep("input");
+    setGasInfo(null);
+    setError("");
+    setAddressError("");
+    setAmountError("");
+    setPassword("");
+    setInternalTxHash("");
+  }, [isOpen]);
 
   // Validate address on change
   const handleAddressChange = (e) => {
@@ -55,8 +77,8 @@ export default function SendModal({ isOpen, onClose, token }) {
       const numAmount = parseFloat(val);
       if (isNaN(numAmount) || numAmount <= 0) {
         setAmountError("Amount must be greater than 0");
-      } else if (userBalance && !validateBalance(userBalance.formatted, val)) {
-        setAmountError(`Insufficient balance (${userBalance.formatted} available)`);
+      } else if (!validateBalance(balanceFormatted, val)) {
+        setAmountError(`Insufficient balance (${balanceFormatted} available)`);
       } else {
         setAmountError("");
       }
@@ -78,7 +100,7 @@ export default function SendModal({ isOpen, onClose, token }) {
     to: address && isValidEthereumAddress(address) ? address : undefined,
     value: amount && parseFloat(amount) > 0 ? parseEther(amount) : undefined,
     query: {
-      enabled: isOpen && address && amount && parseFloat(amount) > 0 && isValidEthereumAddress(address),
+      enabled: !isUsingInternalWallet && isOpen && address && amount && parseFloat(amount) > 0 && isValidEthereumAddress(address),
     }
   });
 
@@ -114,15 +136,37 @@ export default function SendModal({ isOpen, onClose, token }) {
 
   // Handle real blockchain send
   const handleSend = async () => {
-    if (!address || !amount || !isConnected) return;
+    if (!address || !amount || (!isConnected && !isUsingInternalWallet)) return;
+
+    if (isUsingInternalWallet && !password) {
+      setError("Enter your vault password to sign this transaction");
+      return;
+    }
+
     setStep("processing");
     setError("");
 
     try {
-      sendTransaction({
-        to: address,
-        value: parseEther(amount),
-      });
+      if (isUsingInternalWallet) {
+        const tx = await WalletService.sendEth({
+          vault,
+          password,
+          to: address,
+          amountEth: amount,
+          chainId: activeChainId,
+        });
+        setInternalTxHash(tx.hash);
+        addNotification("Transaction submitted!", "info");
+        const receipt = await tx.wait();
+        if (receipt?.status === 0) throw new Error("Transaction reverted on-chain");
+        setStep("success");
+        addNotification("Transaction confirmed on-chain!", "success");
+      } else {
+        sendTransaction({
+          to: address,
+          value: parseEther(amount),
+        });
+      }
     } catch (err) {
       console.error("Send Error:", err);
       setError(err.message || "Transaction rejected");
@@ -142,33 +186,31 @@ export default function SendModal({ isOpen, onClose, token }) {
     if (txHash) {
       addNotification("Transaction submitted!", "info");
     }
-  }, [txHash]);
+  }, [txHash, addNotification]);
 
   useEffect(() => {
     if (isConfirmed) {
       setStep("success");
       addNotification("Transaction confirmed on-chain!", "success");
     }
-  }, [isConfirmed]);
+  }, [isConfirmed, addNotification]);
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-[#0f172a]/90 backdrop-blur-md" onClick={onClose} />
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="modal-backdrop absolute inset-0" onClick={onClose} />
       <motion.div 
         initial={{ opacity: 0, scale: 0.95, y: 20 }} 
         animate={{ opacity: 1, scale: 1, y: 0 }} 
-        className="relative w-full max-w-lg luxe-card p-10 overflow-hidden"
+        className="modal-panel relative w-full max-w-lg p-10 overflow-hidden"
       >
-        <div className="absolute top-0 right-0 p-20 bg-[#E9B3A2]/5 blur-[100px] rounded-full" />
-        
         <div className="relative z-10">
           <div className="flex justify-between items-center mb-10">
             <div>
               <h3 className="text-2xl font-black text-theme tracking-tight">Send {token?.symbol}</h3>
               <p className="text-[10px] text-muted font-bold uppercase tracking-widest">
-                {chainId === 11155111 ? "Sepolia Testnet" : "Ethereum Mainnet"}
+                {getChainName(activeChainId)} · {isUsingInternalWallet ? "Internal vault" : "External signer"}
               </p>
             </div>
             <button onClick={onClose} className="p-3 hover:bg-white/5 rounded-2xl transition-colors">
@@ -187,7 +229,7 @@ export default function SendModal({ isOpen, onClose, token }) {
                       placeholder="0x..." 
                       value={address}
                       onChange={handleAddressChange}
-                      className={`w-full bg-black/20 border ${addressError ? 'border-red-500' : 'border-white/5'} rounded-[24px] p-6 text-sm font-bold text-theme focus:border-[#E9B3A2]/40 outline-none transition-all`}
+                      className={`input-surface w-full border ${addressError ? 'border-red-500' : 'border-theme'} rounded-[20px] p-6 text-sm font-bold focus:border-accent/40 outline-none transition-all`}
                     />
                     {addressError && (
                       <p className="text-xs text-red-400 mt-2 ml-2">{addressError}</p>
@@ -198,16 +240,16 @@ export default function SendModal({ isOpen, onClose, token }) {
                 <div className="space-y-4">
                   <div className="flex justify-between px-2">
                     <label className="text-[10px] font-black text-muted uppercase tracking-[0.2em]">Amount</label>
-                    {userBalance && (
+                    {balanceFormatted && (
                       <span 
-                        className="text-[10px] font-black text-[#E9B3A2] uppercase tracking-widest cursor-pointer hover:opacity-80"
+                        className="text-[10px] font-black text-accent uppercase tracking-widest cursor-pointer hover:opacity-80"
                         onClick={() => {
-                          const max = userBalance.formatted;
+                          const max = balanceFormatted;
                           setAmount(max);
                           setAmountError("");
                         }}
                       >
-                        Use Max ({userBalance.formatted})
+                        Use Max ({balanceFormatted})
                       </span>
                     )}
                   </div>
@@ -218,7 +260,7 @@ export default function SendModal({ isOpen, onClose, token }) {
                         placeholder="0.00" 
                         value={amount}
                         onChange={handleAmountChange}
-                        className={`w-full bg-black/20 border ${amountError ? 'border-red-500' : 'border-white/5'} rounded-[24px] p-8 text-4xl font-black text-theme focus:border-[#E9B3A2]/40 outline-none transition-all placeholder:opacity-20`}
+                        className={`input-surface w-full border ${amountError ? 'border-red-500' : 'border-theme'} rounded-[20px] p-8 text-4xl font-black focus:border-accent/40 outline-none transition-all placeholder:opacity-20`}
                       />
                       <div className="absolute right-8 top-1/2 -translate-y-1/2 flex items-center gap-3">
                         <TokenIcon symbol={token?.symbol} size={32} />
@@ -236,7 +278,7 @@ export default function SendModal({ isOpen, onClose, token }) {
                   fullWidth 
                   size="lg" 
                   icon={ArrowRight}
-                  disabled={!address || !amount || addressError || amountError || !isConnected}
+                  disabled={!address || !amount || addressError || amountError || (!isConnected && !isUsingInternalWallet)}
                   onClick={() => setStep("review")}
                 >
                   Review Transaction
@@ -246,16 +288,16 @@ export default function SendModal({ isOpen, onClose, token }) {
 
             {step === "review" && (
               <motion.div key="review" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-8">
-                 <div className="bg-black/20 rounded-[32px] p-8 border border-white/5 space-y-6">
-                    <div className="flex justify-between items-center border-b border-white/5 pb-4">
+                 <div className="bg-secondary rounded-[24px] p-8 border border-theme space-y-6">
+                    <div className="flex justify-between items-center border-b border-theme pb-4">
                        <span className="text-xs font-bold text-muted">Recipient</span>
                        <span className="text-xs font-black text-theme font-mono">{address.slice(0, 8)}...{address.slice(-6)}</span>
                     </div>
-                    <div className="flex justify-between items-center border-b border-white/5 pb-4">
+                    <div className="flex justify-between items-center border-b border-theme pb-4">
                        <span className="text-xs font-bold text-muted">Amount</span>
                        <span className="text-xs font-black text-theme">{amount} {token?.symbol}</span>
                     </div>
-                    <div className="flex justify-between items-center border-b border-white/5 pb-4">
+                    <div className="flex justify-between items-center border-b border-theme pb-4">
                        <div className="flex items-center gap-2">
                           <Fuel size={14} className="text-muted" />
                           <span className="text-xs font-bold text-muted">Gas Fee</span>
@@ -266,23 +308,36 @@ export default function SendModal({ isOpen, onClose, token }) {
                        </div>
                     </div>
                     <div className="flex justify-between items-center pt-2">
-                       <span className="text-sm font-black text-[#E9B3A2] uppercase tracking-widest">Total cost</span>
+                       <span className="text-sm font-black text-accent uppercase tracking-widest">Total cost</span>
                        <span className="text-xl font-black text-theme">${(parseFloat(amount) * (token?.price || 0) + (gasInfo?.total_usd || 0)).toFixed(2)}</span>
                     </div>
                  </div>
+
+                 {isUsingInternalWallet && (
+                   <div className="space-y-3">
+                     <label className="text-[10px] font-black text-muted uppercase tracking-[0.2em] ml-2">Vault Password</label>
+                     <input
+                       type="password"
+                       value={password}
+                       onChange={(event) => setPassword(event.target.value)}
+                       placeholder="Unlock encrypted wallet"
+                       className="input-surface w-full border border-theme rounded-[20px] p-5 text-sm font-bold focus:border-accent/40 outline-none transition-all placeholder:text-muted/40"
+                     />
+                   </div>
+                 )}
 
                  <TransactionGuard amount={amount} recipient={address} />
 
                  <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-2xl p-4 flex items-start gap-3">
                     <AlertCircle size={16} className="text-yellow-500 shrink-0 mt-0.5" />
                     <p className="text-[10px] text-yellow-500/80 font-bold leading-relaxed">
-                      This is a <strong>real blockchain transaction</strong>. Your wallet will prompt you to sign. Gas fees are paid in ETH.
+                      This is a <strong>real blockchain transaction</strong>. {isUsingInternalWallet ? "Your encrypted vault will sign locally after password unlock." : "Your wallet will prompt you to sign."} Gas fees are paid in ETH.
                     </p>
                  </div>
 
                  <div className="grid grid-cols-2 gap-4 pt-4">
                     <Button variant="secondary" fullWidth onClick={() => setStep("input")}>Back</Button>
-                    <Button variant="primary" fullWidth onClick={handleSend}>Confirm & Send</Button>
+                    <Button variant="primary" fullWidth onClick={handleSend} disabled={isUsingInternalWallet && !password}>Confirm & Send</Button>
                  </div>
               </motion.div>
             )}
@@ -298,13 +353,13 @@ export default function SendModal({ isOpen, onClose, token }) {
                       {isSending ? "Waiting for Wallet..." : isConfirming ? "Confirming on Chain..." : "Broadcasting..."}
                     </h4>
                     <p className="text-xs text-muted font-bold px-10 leading-relaxed uppercase tracking-widest">
-                      {isSending ? "Please confirm in your wallet extension" : "Waiting for block confirmation"}
+                      {isUsingInternalWallet ? "Signing with your encrypted vault" : isSending ? "Please confirm in your wallet extension" : "Waiting for block confirmation"}
                     </p>
                  </div>
-                 {txHash && (
-                   <div className="bg-black/20 p-4 rounded-2xl inline-block border border-white/5">
+                 {activeTxHash && (
+                   <div className="bg-secondary p-4 rounded-2xl inline-block border border-theme">
                       <p className="text-[9px] font-black text-muted uppercase tracking-[0.2em] mb-1">TX HASH</p>
-                      <p className="text-[10px] font-mono text-[#E9B3A2] truncate w-64">{txHash}</p>
+                      <p className="text-[10px] font-mono text-accent truncate w-64">{activeTxHash}</p>
                    </div>
                  )}
               </motion.div>
@@ -321,10 +376,10 @@ export default function SendModal({ isOpen, onClose, token }) {
                  </div>
                  <div className="space-y-4 px-10 pt-6">
                     <a 
-                      href={getExplorerUrl(chainId, txHash)} 
+                      href={getExplorerUrl(activeChainId, activeTxHash)} 
                       target="_blank" 
                       rel="noreferrer"
-                      className="flex items-center justify-center gap-2 text-[10px] font-black text-[#E9B3A2] uppercase tracking-[0.2em] hover:opacity-80 transition-opacity"
+                      className="flex items-center justify-center gap-2 text-[10px] font-black text-accent uppercase tracking-[0.2em] hover:opacity-80 transition-opacity"
                     >
                       <ExternalLink size={14} />
                       View on Etherscan

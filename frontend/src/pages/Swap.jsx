@@ -120,10 +120,10 @@ export default function Swap() {
           <p className="text-muted font-bold uppercase text-[10px] tracking-[0.2em]">Optimized routing for best execution</p>
         </div>
         <div className="flex gap-2">
-          <button className="p-3 bg-white/5 border border-white/5 rounded-2xl text-muted hover:text-theme transition-colors">
+          <button className="p-3 bg-surface border border-theme rounded-2xl text-muted hover:text-theme transition-colors">
             <RefreshCcw size={18} />
           </button>
-          <button className="p-3 bg-white/5 border border-white/5 rounded-2xl text-muted hover:text-theme transition-colors">
+          <button className="p-3 bg-surface border border-theme rounded-2xl text-muted hover:text-theme transition-colors">
             <Settings2 size={18} />
           </button>
         </div>
@@ -131,7 +131,7 @@ export default function Swap() {
 
       <div className="relative space-y-2">
         {/* FROM CARD */}
-        <div className="luxe-card p-8 bg-white/[0.02] border-white/5">
+        <div className="luxe-card p-8 bg-surface border-theme">
           <div className="flex justify-between mb-4">
             <label className="text-[10px] font-black text-muted uppercase tracking-widest">You Pay</label>
             <span className="text-[10px] font-black text-muted uppercase tracking-widest">Balance: {fromToken.symbol === 'ETH' ? balance.toFixed(4) : '0.00'}</span>
@@ -144,7 +144,7 @@ export default function Swap() {
               onChange={(e) => setFromAmount(e.target.value)}
               className="w-full bg-transparent text-4xl font-black text-theme outline-none placeholder:opacity-20"
             />
-            <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl p-2 px-4 cursor-pointer hover:bg-white/10 transition-all">
+            <div className="flex items-center gap-3 bg-secondary border border-theme rounded-2xl p-2 px-4 cursor-pointer hover:bg-theme transition-all">
               <TokenIcon symbol={fromToken.symbol} size={24} />
               <span className="text-sm font-black text-theme">{fromToken.symbol}</span>
               <ChevronDown size={14} className="text-muted" />
@@ -159,22 +159,22 @@ export default function Swap() {
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
           <button 
             onClick={switchTokens}
-            className="p-3 bg-[#0f172a] border border-white/10 rounded-2xl text-[#E9B3A2] hover:scale-110 transition-all shadow-2xl"
+            className="p-3 bg-theme border border-accent/20 rounded-2xl text-accent hover:scale-110 transition-all shadow-2xl"
           >
             <ArrowDown size={20} strokeWidth={3} />
           </button>
         </div>
 
         {/* TO CARD */}
-        <div className="luxe-card p-8 bg-white/[0.04] border-white/10">
+        <div className="luxe-card p-8 bg-surface border-theme">
           <div className="flex justify-between mb-4">
             <label className="text-[10px] font-black text-muted uppercase tracking-widest">You Receive</label>
           </div>
           <div className="flex items-center gap-4">
             <div className="w-full text-4xl font-black text-theme">
-              {loading ? <Loader2 className="animate-spin text-[#E9B3A2]" size={32} /> : (toAmount || "0.0")}
+              {loading ? <Loader2 className="animate-spin text-accent" size={32} /> : (toAmount || "0.0")}
             </div>
-            <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl p-2 px-4 cursor-pointer hover:bg-white/10 transition-all">
+            <div className="flex items-center gap-3 bg-secondary border border-theme rounded-2xl p-2 px-4 cursor-pointer hover:bg-theme transition-all">
               <TokenIcon symbol={toToken.symbol} size={24} />
               <span className="text-sm font-black text-theme">{toToken.symbol}</span>
               <ChevronDown size={14} className="text-muted" />
@@ -195,7 +195,7 @@ export default function Swap() {
             exit={{ opacity: 0, y: 10 }}
             className="space-y-4"
           >
-             <div className="bg-white/5 rounded-3xl p-6 border border-white/5 space-y-4">
+             <div className="bg-surface rounded-3xl p-6 border border-theme space-y-4">
                 <div className="flex justify-between items-center text-xs">
                    <div className="flex items-center gap-2 text-muted font-bold uppercase tracking-widest">
                       <Zap size={14} /> Price Impact
@@ -209,7 +209,7 @@ export default function Swap() {
                    <span className="text-theme font-black">${quote.gas_estimate.toFixed(2)}</span>
                 </div>
                 <div 
-                  className="pt-4 border-t border-white/5 cursor-pointer flex justify-between items-center"
+                  className="pt-4 border-t border-theme cursor-pointer flex justify-between items-center"
                   onClick={() => setShowRoutes(!showRoutes)}
                 >
                    <div className="flex items-center gap-2 text-muted font-bold uppercase tracking-widest text-[10px]">
@@ -229,16 +229,16 @@ export default function Swap() {
                   >
                      <div className="flex items-center gap-4 justify-center py-4 relative">
                         <div className="flex flex-col items-center gap-2 z-10">
-                           <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
+                           <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center border border-theme">
                               <TokenIcon symbol={fromToken.symbol} size={20} />
                            </div>
                            <span className="text-[8px] font-black text-muted uppercase">{fromToken.symbol}</span>
                         </div>
-                        <div className="flex-1 h-px bg-gradient-to-r from-[#E9B3A2] to-transparent relative">
-                           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-2 bg-[#0f172a] text-[8px] font-black text-[#E9B3A2] uppercase">Uniswap V3</div>
+                        <div className="flex-1 h-px bg-gradient-to-r from-accent to-transparent relative">
+                           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-2 bg-theme text-[8px] font-black text-accent uppercase">Uniswap V3</div>
                         </div>
                         <div className="flex flex-col items-center gap-2 z-10">
-                           <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
+                           <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center border border-theme">
                               <TokenIcon symbol={toToken.symbol} size={20} />
                            </div>
                            <span className="text-[8px] font-black text-muted uppercase">{toToken.symbol}</span>
