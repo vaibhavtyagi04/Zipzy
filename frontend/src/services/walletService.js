@@ -1,11 +1,37 @@
 // services/walletService.js
 import { ethers } from "ethers";
+import { getProviderForChain, getWalletBalance } from "./blockchain";
+
+const MIN_PASSWORD_LENGTH = 8;
+
+function assertStrongEnoughPassword(password) {
+  if (!password || password.length < MIN_PASSWORD_LENGTH) {
+    throw new Error(`Password must be at least ${MIN_PASSWORD_LENGTH} characters`);
+  }
+}
+
+function normalizePhrase(phrase) {
+  return phrase.trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+function toVault(wallet, encryptedJson, chainId = 1) {
+  return {
+    type: "internal",
+    version: 1,
+    address: wallet.address,
+    encryptedJson,
+    chainId,
+    createdAt: new Date().toISOString(),
+  };
+}
 
 /**
  * WalletService - Wallet management + Gas estimation
  * Handles internal HD wallets AND works alongside wagmi for MetaMask
  */
 export const WalletService = {
+  MIN_PASSWORD_LENGTH,
+
   /**
    * Generates a new 12-word mnemonic phrase
    */
@@ -31,6 +57,7 @@ export const WalletService = {
    * Encrypts a wallet's private key with a password
    */
   encrypt: async (wallet, password) => {
+    assertStrongEnoughPassword(password);
     return await wallet.encrypt(password);
   },
 
@@ -39,6 +66,73 @@ export const WalletService = {
    */
   decrypt: async (json, password) => {
     return await ethers.Wallet.fromEncryptedJson(json, password);
+  },
+
+  /**
+   * Creates an encrypted non-custodial wallet vault.
+   * The mnemonic is returned once for backup and is never persisted by this service.
+   */
+  createEncryptedWallet: async (password, chainId = 1) => {
+    assertStrongEnoughPassword(password);
+    const wallet = ethers.Wallet.createRandom();
+    const encryptedJson = await wallet.encrypt(password);
+
+    return {
+      vault: toVault(wallet, encryptedJson, chainId),
+      mnemonic: wallet.mnemonic?.phrase || "",
+    };
+  },
+
+  /**
+   * Imports a wallet from a recovery phrase and stores only the encrypted keystore.
+   */
+  importEncryptedWallet: async (phrase, password, chainId = 1) => {
+    assertStrongEnoughPassword(password);
+    const normalizedPhrase = normalizePhrase(phrase);
+    const words = normalizedPhrase.split(" ");
+
+    if (![12, 15, 18, 21, 24].includes(words.length)) {
+      throw new Error("Secret Recovery Phrase must be 12, 15, 18, 21, or 24 words");
+    }
+
+    ethers.Mnemonic.fromPhrase(normalizedPhrase);
+    const wallet = ethers.Wallet.fromPhrase(normalizedPhrase);
+    const encryptedJson = await wallet.encrypt(password);
+
+    return toVault(wallet, encryptedJson, chainId);
+  },
+
+  /**
+   * Unlocks a persisted encrypted vault for the current session only.
+   */
+  unlockVault: async (vault, password, chainId = vault?.chainId || 1) => {
+    if (!vault?.encryptedJson) {
+      throw new Error("Encrypted wallet vault not found");
+    }
+
+    const wallet = await ethers.Wallet.fromEncryptedJson(vault.encryptedJson, password);
+    return wallet.connect(getProviderForChain(chainId));
+  },
+
+  getBalance: async (address, chainId = 1) => {
+    return getWalletBalance(address, chainId);
+  },
+
+  getNetwork: async (chainId = 1) => {
+    const provider = getProviderForChain(chainId);
+    return provider.getNetwork();
+  },
+
+  sendEth: async ({ vault, password, to, amountEth, chainId = vault?.chainId || 1 }) => {
+    if (!ethers.isAddress(to)) {
+      throw new Error("Invalid recipient address");
+    }
+
+    const wallet = await WalletService.unlockVault(vault, password, chainId);
+    return wallet.sendTransaction({
+      to,
+      value: ethers.parseEther(amountEth.toString()),
+    });
   },
 
   /**

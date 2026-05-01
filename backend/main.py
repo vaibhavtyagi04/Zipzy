@@ -8,17 +8,21 @@ from datetime import datetime
 from typing import List, Dict, Set
 from dotenv import load_dotenv
 
+from auth import router as auth_router
+
 load_dotenv()
 
 app = FastAPI(title="Zipzy Backend ⚡")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://127.0.0.1:5173", "http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(auth_router, prefix="/auth")
 
 # Active WebSocket connections
 class ConnectionManager:

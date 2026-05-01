@@ -10,50 +10,69 @@ import { useMarketWS } from "../hooks/useMarketWS";
 import { useAccount, useBalance } from 'wagmi';
 import { TokenService } from "../services/tokenService";
 import SendModal from "../components/wallet/SendModal";
-import { Plus, X, Loader2, Copy, Check, Send, Download } from "lucide-react";
+import { Loader2, Copy, Check, Send, Download } from "lucide-react";
+import { getMarketPrices } from "../services/marketData";
+import { getChainName } from "../services/blockchain";
 
 export default function Dashboard() {
-  const { marketData, holdings, tokens, setTokens, setMarketData } = useWalletStore();
+  const {
+    marketData,
+    holdings,
+    setTokens,
+    setMarketData,
+    vault,
+    address: storedAddress,
+    balance: storedBalance,
+    chainId: storedChainId,
+  } = useWalletStore();
   const { subscribe } = useMarketWS();
   const navigate = useNavigate();
   const [isPageLoading, setIsPageLoading] = useState(true);
   const [copied, setCopied] = useState(false);
 
   // Phase 2: Fetch Real Wallet Data
-  const { address, isConnected } = useAccount();
-  const { data: balanceData } = useBalance({ address });
+  const { address: externalAddress, isConnected, chainId: externalChainId } = useAccount();
+  const activeAddress = externalAddress || storedAddress || vault?.address;
+  const activeChainId = externalChainId || storedChainId || vault?.chainId || 1;
+  const { data: balanceData } = useBalance({ address: activeAddress });
 
   // Phase 3: Fetch Tokens
   useEffect(() => {
-    if (address) {
+    if (activeAddress) {
       const fetchTokens = async () => {
-        const tokenData = await TokenService.getTokenBalances(address);
+        const tokenData = await TokenService.getTokenBalances(activeAddress);
         setTokens(tokenData);
       };
       fetchTokens();
     }
-  }, [address, setTokens]);
+  }, [activeAddress, setTokens]);
 
   // Fetch initial market data if empty, and subscribe to current assets
   useEffect(() => {
     const initData = async () => {
       setIsPageLoading(true);
-      if (Object.keys(marketData).length === 0) {
-        const res = await fetch("http://localhost:5000/api/market-data");
-        const data = await res.json();
-        setMarketData(data);
-        subscribe(Object.keys(data));
-      } else {
-        subscribe(Object.keys(marketData));
+      try {
+        if (Object.keys(marketData).length === 0) {
+          const data = await getMarketPrices();
+          if (data && !data.error) {
+            setMarketData(data);
+            subscribe(Object.keys(data));
+          }
+        } else {
+          subscribe(Object.keys(marketData));
+        }
+      } catch (error) {
+        console.error("Dashboard market init failed:", error);
+      } finally {
+        setTimeout(() => setIsPageLoading(false), 500);
       }
-      setTimeout(() => setIsPageLoading(false), 800);
     };
     initData();
   }, [setMarketData, subscribe]);
 
   // Calculate USD conversion
   const ethPrice = marketData?.ETHUSDT?.price || 0;
-  const ethBalance = balanceData ? parseFloat(balanceData.formatted) : 0;
+  const ethBalance = balanceData ? parseFloat(balanceData.formatted) : storedBalance || 0;
   const ethInUsd = ethBalance * ethPrice;
 
   // Total Value (ETH + other holdings)
@@ -63,8 +82,8 @@ export default function Dashboard() {
   }, ethInUsd);
 
   const copyAddress = () => {
-    if (address) {
-      navigator.clipboard.writeText(address);
+    if (activeAddress) {
+      navigator.clipboard.writeText(activeAddress);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
@@ -82,31 +101,31 @@ export default function Dashboard() {
       {/* Main Content Area */}
       <div className="xl:col-span-8 space-y-10">
         {isPageLoading ? (
-          <div className="w-full h-64 bg-white/5 rounded-[40px] animate-pulse flex items-center justify-center">
-            <Loader2 size={32} className="text-[#E9B3A2] animate-spin" />
+          <div className="w-full h-64 bg-surface rounded-[40px] animate-pulse flex items-center justify-center">
+            <Loader2 size={32} className="text-accent animate-spin" />
           </div>
         ) : (
           <div className="space-y-6">
             {/* Wallet Info Header */}
             <div className="flex justify-between items-center px-4">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl overflow-hidden border border-white/5 shadow-lg">
+                <div className="w-10 h-10 rounded-xl overflow-hidden border border-theme shadow-lg">
                   <img src="/logo.png" alt="Zipzy" className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <p className="text-[10px] font-black text-muted uppercase tracking-widest">Active Wallet</p>
                   <button 
                     onClick={copyAddress}
-                    className="flex items-center gap-2 text-sm font-bold text-theme hover:text-[#E9B3A2] transition-colors"
+                    className="flex items-center gap-2 text-sm font-bold text-theme hover:text-accent transition-colors"
                   >
-                    {truncateAddress(address)}
+                    {truncateAddress(activeAddress)}
                     {copied ? <Check size={12} className="text-green-500" /> : <Copy size={12} />}
                   </button>
                 </div>
               </div>
               <div className="text-right">
                 <p className="text-[10px] font-black text-muted uppercase tracking-widest">Network</p>
-                <p className="text-xs font-bold text-theme">Ethereum Mainnet</p>
+                <p className="text-xs font-bold text-theme">{getChainName(activeChainId)}</p>
               </div>
             </div>
 
@@ -114,7 +133,7 @@ export default function Dashboard() {
               <PortfolioSummary 
                 totalBalance={totalValue} 
                 ethBalance={ethBalance}
-                ethSymbol={balanceData?.symbol}
+                ethSymbol={balanceData?.symbol || "ETH"}
                 change={24.5} 
               />
             </div>
@@ -123,14 +142,14 @@ export default function Dashboard() {
             <div className="grid grid-cols-2 gap-4 px-2">
               <button 
                 onClick={() => setIsSendModalOpen(true)}
-                className="flex items-center justify-center gap-3 bg-[#E9B3A2] text-black p-5 rounded-[28px] font-black uppercase tracking-widest text-xs hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-[#E9B3A2]/10"
+                className="send-button flex items-center justify-center gap-3 p-5 uppercase tracking-widest text-xs transition-all active:scale-95"
               >
                 <Send size={18} />
                 Send
               </button>
               <button 
                 onClick={copyAddress}
-                className="flex items-center justify-center gap-3 bg-white/5 border border-white/5 text-theme p-5 rounded-[28px] font-black uppercase tracking-widest text-xs hover:bg-white/10 transition-all"
+                className="flex items-center justify-center gap-3 bg-surface border border-theme text-theme p-5 rounded-[28px] font-black uppercase tracking-widest text-xs hover:bg-theme transition-all"
               >
                 <Download size={18} />
                 Receive
@@ -151,7 +170,7 @@ export default function Dashboard() {
           </div>
           {isPageLoading ? (
             <div className="space-y-4">
-              {[1,2,3].map(i => <div key={i} className="w-full h-24 bg-white/5 rounded-3xl animate-pulse" />)}
+              {[1,2,3].map(i => <div key={i} className="w-full h-24 bg-surface rounded-3xl animate-pulse" />)}
             </div>
           ) : (
             <TokenList marketData={marketData} />

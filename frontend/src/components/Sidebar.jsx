@@ -1,15 +1,19 @@
 // components/Sidebar.jsx
 import { motion } from "framer-motion";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LayoutDashboard, Wallet, Heart, History, TrendingUp, BarChart3, Settings, LogOut, Activity, Bell, Sparkles, Coins } from "lucide-react";
 import Logo from "./ui/Logo";
 import { useWalletStore } from "../store/walletStore";
+import { useAuthStore } from "../store/authStore";
+import { AuthService } from "../services/authService";
 
 export default function Sidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const currentPath = location.pathname;
 
   const { whaleAlerts, isAiEnabled } = useWalletStore();
+  const clearSession = useAuthStore((state) => state.clearSession);
   const unreadNotifications = whaleAlerts.length; // Simplified for demo
 
   const menuItems = [
@@ -64,7 +68,19 @@ export default function Sidebar() {
       </div>
 
       <div className="pt-8 border-t border-theme">
-        <button className="flex items-center gap-3 px-4 py-4 w-full rounded-2xl text-muted hover:text-red-400 hover:bg-red-400/5 transition-all font-bold text-sm">
+        <button
+          onClick={async () => {
+            try {
+              await AuthService.logout();
+            } catch (error) {
+              console.error("Logout failed", error);
+            }
+            clearSession();
+            navigate("/login");
+          }}
+          className="flex items-center gap-3 px-4 py-4 w-full rounded-2xl text-muted hover:text-red-400 hover:bg-red-400/5 transition-all font-bold text-sm"
+          type="button"
+        >
           <LogOut size={20} />
           Sign Out
         </button>
